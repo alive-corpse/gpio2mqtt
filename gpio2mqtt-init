@@ -1,0 +1,24 @@
+#!/bin/sh
+
+case "$1" in
+  start)
+    /opt/gpio2mqtt/gpio2mqtt.sh &
+  ;;
+  restart|reload)
+    $0 stop
+    sleep 1
+    $0 start
+  ;;
+  stop)
+    /usr/bin/killall gpio2mqtt.sh
+  ;;
+  status)
+    [ -n "$(pgrep gpio2mqtt.sh)" ] && echo "gpio2mqtt is running" || echo "gpio2mqtt is not running"
+  ;;
+  *)
+    echo "Usage: /etc/init.d/gpio-init {start|stop|restart|status}"
+    exit 1
+  ;;
+esac
+
+exit 0
